@@ -1,0 +1,25 @@
+<?php
+
+class Controller_Upgrade extends Controller
+{
+    public function action_index()
+    {
+        try
+        {
+            \DBUtil::modify_fields('urls', array(
+                'url' => array('constraint' => 255, 'type' => 'varchar')
+            ));
+        }
+        catch(\Database_exception $e){}
+        try
+        {
+           \DBUtil::add_fields('urls', array(
+                'cached_preview' => array('type' => 'longblob','null' => true)
+            ));
+        }
+        catch(\Database_exception $e){}
+        
+        Response::Redirect(Uri::Base());
+    }
+    
+}
